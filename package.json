@@ -1,5 +1,5 @@
 {
-  "name": "parcel-sandbox",
+  "name": "chorome-devtools-handson",
   "version": "1.0.0",
   "description": "Simple Parcel Sandbox",
   "main": "index.html",
@@ -12,5 +12,6 @@
     "@babel/core": "7.2.0",
     "@types/bootstrap": "4.3.0",
     "parcel-bundler": "^1.6.1"
-  }
+  },
+  "keywords": []
 }

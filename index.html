@@ -10,7 +10,6 @@
       integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
       crossorigin="anonymous"
     />
-
     <!-- DataTables css -->
     <link
       rel="stylesheet"
@@ -20,25 +19,52 @@
 
   <body>
     <nav class="navbar navbar-light bg-info">
-      <span class="navbar-brand mb-0 h1 text-white"
-        >Google Chrome Devloper Tools HANDS ON!</span
-      >
+      <span class="navbar-brand mb-0 h1 text-white">
+        Google Chrome Devloper Tools HANDS ON!
+      </span>
     </nav>
 
-    <div
-      class="d-flex flex-column bg-secondary text-white"
-      style="height:200px"
-    >
-      <div></div>
+    <div class="bg-secondary text-white" style="height:250px">
+      <div class="d-flex flex-row">
+        <div>
+          <p class="pt-3 pl-4 font-italic font-weight-bolder display-3">
+            Click Search Button!
+          </p>
+          <h4 class="pl-5 font-italic">then you get DataTables</h4>
+        </div>
+        <div class="pt-5 pl-5 ml-5">
+          <button
+            type="button"
+            id="btn"
+            class="btn btn-outline-warning btn-lg mt-4"
+          >
+            Search
+          </button>
+        </div>
+      </div>
     </div>
 
-    <div class="container">
-      <div class="row">
-        <div class="col bg-success">a</div>
-        <div class="col bg-danger">b</div>
-      </div>
-      <button type="button" class="btn btn-primary">Primary</button>
+    <div class="container" id="area">
+      <br />
+      <table
+        class="table table-striped table-bordered"
+        id="member_table"
+        style="width:100%"
+      >
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>名前</th>
+            <th>E-MAIL</th>
+            <th>年齢</th>
+            <th>現住所</th>
+            <th>TEL</th>
+          </tr>
+        </thead>
+      </table>
     </div>
+
+    <input type="hidden" id="searchCount" value="0" />
 
     <!-- jQuery,Popper,Bootstrap -->
     <script
@@ -60,5 +86,42 @@
     <!-- datatable -->
     <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js"></script>
+
+    <script>
+      $(document).ready(function() {
+        $("#area").hide();
+
+        $("#btn").click(function() {
+          let cnt = parseInt($("#searchCount").val());
+
+          $("#searchCount").val(cnt + 1);
+
+          let sampleTable = $("#member_table").dataTable({
+            aoColumns: [
+              { mData: "id", sDefaultContent: "" },
+              { mData: "name", sDefaultContent: "" },
+              { mData: "email", sDefaultContent: "" },
+              { mData: "age", sDefaultContent: "" },
+              { mData: "address", sDefaultContent: "" },
+              { mData: "tel", sDefaultContent: "" }
+            ],
+            sAjaxSource:
+              "https://api.myjson.com/bins/yx72q?deleteFlag=0&locale=ja",
+            sAjaxDataProp: "result",
+            destroy: true,
+
+            fnServerData: function(sSource, aoData, fnCallback, oSettings) {
+              oSettings.jqXHR = $.ajax({
+                url: sSource,
+                type: "GET",
+                dataType: "json"
+              }).done(fnCallback);
+            }
+          });
+
+          $("#area").show();
+        });
+      });
+    </script>
   </body>
 </html>
